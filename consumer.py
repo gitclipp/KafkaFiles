@@ -16,6 +16,6 @@ try:
         if message.error():
             print("Consumer error: {}".format(message.error()))
             continue
-        print("Received Ping: {}".format(message.value().decode('utf-8')))
+        print("Received Order: {}".format(message.value().decode('utf-8')))
 finally:
     c.close()
