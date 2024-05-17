@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-from confluent_kafka import Consumer
+from confluent_kafka import Consumer, Producer
+import json
 
 props = {'bootstrap.servers': 'localhost:9092',
          'group.id': 'hallo_dev_consumer',
