@@ -21,14 +21,13 @@ def delivery_report(err, msg):
     }
     print(json.dumps(report))
 
-
 def main():
     parser = argparse.ArgumentParser(description='Kafka Verifiable Producer')
     parser.add_argument('--topic', required=True, help='Produce messages to this topic.')
     parser.add_argument('--max-messages', type=int, default=-1,
                         help='Produce this many messages. If -1, produce messages until killed. (default: -1)')
-    parser.add_argument('--throughput', type=int, default=-1,
-                        help='Throttle message throughput to THROUGHPUT messages/sec. (default: -1)')
+    parser.add_argument('--throughput', type=int, default=1,
+                        help='Throttle message throughput to THROUGHPUT messages/sec. (default: 1)')
     parser.add_argument('--acks', type=int, default=1, help='Acks required on each produced message. (default: 1)')
     parser.add_argument('--producer_config', help='Producer config properties file.')
     parser.add_argument('--message-create-time', type=int, default=-1,
@@ -41,7 +40,8 @@ def main():
 
     args = parser.parse_args()
 
-    conf = {'bootstrap.servers': args.bootstrap_server}
+    conf = {'bootstrap.servers': args.bootstrap_server,
+            "partitioner": "murmur2_random"}
 
     if args.producer_config:
         with open(args.producer_config, 'r') as f:
